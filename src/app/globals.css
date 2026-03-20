@@ -7,7 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-outfit);
+  --font-display: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -38,6 +39,10 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-warm: var(--warm);
+  --color-warm-dark: var(--warm-dark);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -48,72 +53,141 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+
+  /* Darna Brand Colors */
+  --brand-primary: #ec3713;
+  --brand-secondary: #697F00;
+
+  /* Warm accent tones (Moroccan terracotta palette) */
+  --warm: #F5E6DC;
+  --warm-dark: #E8CDBA;
+
+  /* Background & Surface */
+  --background: #FBF8F6;
+  --foreground: #2C1810;
+  --surface-alt: #FFFFFF;
+
+  /* Card */
+  --card: #FFFFFF;
+  --card-foreground: #2C1810;
+
+  /* Popover */
+  --popover: #FFFFFF;
+  --popover-foreground: #2C1810;
+
+  /* Primary - Warm orange-red brand */
+  --primary: #D4310E;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary - Olive green */
+  --secondary: #697F00;
+  --secondary-foreground: #FFFFFF;
+
+  /* Muted */
+  --muted: #F0EAE6;
+  --muted-foreground: #8B7355;
+
+  /* Accent */
+  --accent: #FFF5F0;
+  --accent-foreground: #2C1810;
+
+  /* Destructive */
+  --destructive: #D32F2F;
+
+  /* Success */
+  --success: #4CAF50;
+
+  /* Warning */
+  --warning: #F59E0B;
+
+  /* Border & Input */
+  --border: #E6D5C8;
+  --input: #E6D5C8;
+  --ring: #D4310E;
+
+  /* Chart colors */
+  --chart-1: #D4310E;
+  --chart-2: #697F00;
+  --chart-3: #4CAF50;
+  --chart-4: #2196F3;
+  --chart-5: #9C27B0;
+
+  /* Sidebar (unused in customer app, keeping for shadcn compat) */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #2C1810;
+  --sidebar-primary: #D4310E;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #FFF5F0;
+  --sidebar-accent-foreground: #2C1810;
+  --sidebar-border: #E6D5C8;
+  --sidebar-ring: #D4310E;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Warm accent tones */
+  --warm: #2A1F1A;
+  --warm-dark: #3A2E26;
+
+  /* Background & Surface */
+  --background: #1A1210;
+  --foreground: #F5EDE8;
+  --surface-alt: #251C18;
+
+  /* Card */
+  --card: #251C18;
+  --card-foreground: #F5EDE8;
+
+  /* Popover */
+  --popover: #251C18;
+  --popover-foreground: #F5EDE8;
+
+  /* Primary - stays warm */
+  --primary: #E84420;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary - lighter olive */
+  --secondary: #8FA524;
+  --secondary-foreground: #FFFFFF;
+
+  /* Muted */
+  --muted: #2E2420;
+  --muted-foreground: #A89080;
+
+  /* Accent */
+  --accent: #2E2420;
+  --accent-foreground: #F5EDE8;
+
+  /* Destructive */
+  --destructive: #EF5350;
+
+  /* Success */
+  --success: #66BB6A;
+
+  /* Warning */
+  --warning: #FBBF24;
+
+  /* Border & Input */
+  --border: #3A2E26;
+  --input: #3A2E26;
+  --ring: #E84420;
+
+  /* Chart colors */
+  --chart-1: #E84420;
+  --chart-2: #8FA524;
+  --chart-3: #66BB6A;
+  --chart-4: #42A5F5;
+  --chart-5: #AB47BC;
+
+  /* Sidebar */
+  --sidebar: #251C18;
+  --sidebar-foreground: #F5EDE8;
+  --sidebar-primary: #E84420;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #2E2420;
+  --sidebar-accent-foreground: #F5EDE8;
+  --sidebar-border: #3A2E26;
+  --sidebar-ring: #E84420;
 }
 
 @layer base {
@@ -121,9 +195,73 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-playfair), Georgia, serif;
+  }
+}
+
+/* Subtle linen/noise background texture */
+.bg-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='0.02' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.dark .bg-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.02' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Moroccan zellige-inspired geometric pattern overlay */
+.bg-zellige {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4310E' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Cpath d='M30 10L50 30L30 50L10 30Z' fill='none' stroke='%23D4310E' stroke-opacity='0.04' stroke-width='0.5'/%3E%3C/svg%3E");
+}
+
+.dark .bg-zellige {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Cpath d='M30 10L50 30L30 50L10 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.04' stroke-width='0.5'/%3E%3C/svg%3E");
+}
+
+/* Scalloped section divider — Moroccan arch inspired */
+.divider-scallop {
+  background-image: radial-gradient(circle at 50% 0%, var(--background) 25%, transparent 26%);
+  background-size: 20px 10px;
+  background-position: center top;
+  height: 10px;
+}
+
+/* Decorative arch shape for hero */
+.arch-clip {
+  clip-path: ellipse(55% 100% at 50% 0%);
+}
+
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
+
+  .font-display {
+    font-family: var(--font-playfair), Georgia, serif;
   }
 }
