@@ -23,13 +23,10 @@ export function AddressForm({ address, onChange, errors }: AddressFormProps) {
         <Label htmlFor="city">Ville</Label>
         <Input
           id="city"
-          placeholder="Ville"
-          value={address.city}
-          onChange={(e) => update("city", e.target.value)}
+          value="Tanger"
+          readOnly
+          className="bg-muted text-muted-foreground"
         />
-        {errors?.city && (
-          <p className="text-sm text-destructive">{errors.city}</p>
-        )}
       </div>
 
       <div className="space-y-2">

@@ -28,7 +28,7 @@ export default function AddressPage() {
 
   const [address, setAddress] = useState<UserAddress>({
     addressLine: "",
-    city: "",
+    city: "Tanger",
     phone: "",
     zoneId: undefined,
   })
@@ -52,10 +52,6 @@ export default function AddressPage() {
       newErrors.phone = "Le téléphone est obligatoire"
     } else if (!isValidMoroccanPhone(address.phone)) {
       newErrors.phone = "Numéro marocain invalide"
-    }
-
-    if (!address.city.trim()) {
-      newErrors.city = "La ville est obligatoire"
     }
 
     setErrors(newErrors)

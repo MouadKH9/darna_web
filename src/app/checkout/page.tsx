@@ -1,12 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/layout/header"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ZoneSelector } from "@/components/checkout/zone-selector"
 import { AddressForm } from "@/components/checkout/address-form"
-import { PaymentMethodSelector } from "@/components/checkout/payment-method-selector"
 import { OrderSummaryCard } from "@/components/checkout/order-summary-card"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -32,13 +31,13 @@ export default function CheckoutPage() {
 
   const [address, setAddress] = useState<UserAddress>({
     addressLine: "",
-    city: "",
+    city: "Tanger",
     phone: "",
     zoneId: undefined,
   })
-  const [paymentMethod, setPaymentMethod] = useState<"cash" | "card">("cash")
   const [errors, setErrors] = useState<Partial<Record<keyof UserAddress, string>>>({})
   const [submitting, setSubmitting] = useState(false)
+  const orderPlacedRef = useRef(false)
 
   // Pre-fill from saved address
   useEffect(() => {
@@ -52,9 +51,9 @@ export default function CheckoutPage() {
     }
   }, [savedAddress])
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty (but not after order was placed)
   useEffect(() => {
-    if (cart.length === 0) {
+    if (cart.length === 0 && !orderPlacedRef.current) {
       router.replace("/cart")
     }
   }, [cart, router])
@@ -66,10 +65,6 @@ export default function CheckoutPage() {
       newErrors.phone = "Le téléphone est obligatoire"
     } else if (!isValidMoroccanPhone(address.phone)) {
       newErrors.phone = "Numéro marocain invalide"
-    }
-
-    if (!address.city.trim()) {
-      newErrors.city = "La ville est obligatoire"
     }
 
     if (!address.zoneId) {
@@ -90,7 +85,8 @@ export default function CheckoutPage() {
       await upsertRemoteAddress(user.id, address)
 
       // Place order
-      const result = await placeOrder(paymentMethod)
+      orderPlacedRef.current = true
+      const result = await placeOrder("cash")
       if (result) {
         router.push(`/confirmation/${result.orderId}`)
       }
@@ -128,7 +124,7 @@ export default function CheckoutPage() {
             transition={easeOutExpo}
             className="mb-8 flex items-center justify-center gap-2"
           >
-            {["Zone", "Adresse", "Paiement"].map((label, i) => (
+            {["Zone", "Coordonnées", "Récapitulatif"].map((label, i) => (
               <div key={label} className="flex items-center gap-2">
                 <div className="flex items-center gap-1.5">
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
@@ -180,14 +176,6 @@ export default function CheckoutPage() {
                   errors={errors}
                 />
               )}
-            </motion.div>
-
-            {/* Payment */}
-            <motion.div variants={fadeInUp} transition={easeOutExpo}>
-              <PaymentMethodSelector
-                selected={paymentMethod}
-                onSelect={setPaymentMethod}
-              />
             </motion.div>
 
             {/* Order summary */}
