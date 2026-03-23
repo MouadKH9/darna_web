@@ -3,10 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Clock } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { formatPrice } from "@/utils/format"
 import type { Dish } from "@/types"
 import { motion } from "framer-motion"
+import { fadeInUp, springGentle, easeOutExpo } from "@/lib/animations"
 
 interface DishCardProps {
   dish: Dish
@@ -16,14 +16,17 @@ interface DishCardProps {
 export function DishCard({ dish, index = 0 }: DishCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      variants={fadeInUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ ...easeOutExpo, delay: index * 0.06 }}
+      whileHover={{ y: -6, transition: springGentle }}
     >
       <Link href={`/menu/${dish.id}`} className="group block">
-        <div className="overflow-hidden rounded-2xl border border-border/40 bg-card shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
+        <div className="overflow-hidden rounded-3xl bg-card card-warm-glow transition-all duration-300">
           {/* Image */}
-          <div className="relative aspect-[4/3] overflow-hidden">
+          <div className="relative aspect-square overflow-hidden">
             {dish.image ? (
               <Image
                 src={dish.image}
@@ -38,25 +41,33 @@ export function DishCard({ dish, index = 0 }: DishCardProps) {
               </div>
             )}
 
-            {/* Category badge */}
+            {/* Gradient overlay at bottom */}
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
+
+            {/* Category badge — glassmorphism at bottom-left */}
             {dish.category && (
-              <Badge
-                className="absolute left-3 top-3 border-0 bg-secondary/90 text-secondary-foreground backdrop-blur-sm"
-              >
+              <span className="absolute bottom-3 left-3 rounded-full bg-background/85 px-3 py-1 text-xs font-medium backdrop-blur-md">
                 {dish.category}
-              </Badge>
+              </span>
             )}
 
             {/* Prep time */}
-            <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-background/85 px-2.5 py-1 text-xs font-medium backdrop-blur-sm">
+            <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-background/85 px-2.5 py-1 text-xs font-medium backdrop-blur-md">
               <Clock className="h-3 w-3 text-muted-foreground" />
               {dish.prepTimeMinutes} min
             </div>
           </div>
 
+          {/* Floating price pill */}
+          <div className="relative">
+            <span className="absolute -top-4 right-4 rounded-full bg-primary px-4 py-1.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25">
+              {formatPrice(dish.price)}
+            </span>
+          </div>
+
           {/* Info */}
-          <div className="p-4">
-            <h3 className="font-display text-[17px] font-semibold leading-snug text-card-foreground line-clamp-1">
+          <div className="p-4 pt-6">
+            <h3 className="font-display text-lg font-bold leading-snug text-card-foreground line-clamp-1">
               {dish.name}
             </h3>
             {dish.description && (
@@ -64,9 +75,6 @@ export function DishCard({ dish, index = 0 }: DishCardProps) {
                 {dish.description}
               </p>
             )}
-            <p className="mt-3 text-lg font-bold text-primary">
-              {formatPrice(dish.price)}
-            </p>
           </div>
         </div>
       </Link>

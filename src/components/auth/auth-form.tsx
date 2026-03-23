@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/providers/auth-provider"
 import { toast } from "sonner"
 import { Loader2, UserRound } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { springBouncy, easeOutExpo } from "@/lib/animations"
 
 type Mode = "login" | "signup"
 
@@ -77,25 +79,41 @@ export function AuthForm() {
 
   return (
     <div className="mx-auto w-full max-w-sm space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-primary">Darna</h1>
+      {/* Decorative arch frame */}
+      <div className="relative">
+        <svg className="absolute -top-6 left-1/2 -translate-x-1/2 text-primary/10 w-[280px] h-[160px]" viewBox="0 0 280 160" fill="none" aria-hidden>
+          <path d="M10 160V80C10 36 65 10 140 10C215 10 270 36 270 80V160" stroke="currentColor" strokeWidth="1"/>
+        </svg>
+      </div>
+
+      <div className="text-center pt-8">
+        <h1 className="text-4xl font-display font-bold text-gradient-warm">Darna</h1>
         <p className="mt-2 text-muted-foreground">
           {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte"}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {mode === "signup" && (
-          <div className="space-y-2">
-            <Label htmlFor="fullName">Nom complet</Label>
-            <Input
-              id="fullName"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Votre nom"
-            />
-          </div>
-        )}
+        <AnimatePresence mode="popLayout">
+          {mode === "signup" && (
+            <motion.div
+              key="fullname"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={easeOutExpo}
+              className="space-y-2 overflow-hidden"
+            >
+              <Label htmlFor="fullName">Nom complet</Label>
+              <Input
+                id="fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Votre nom"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
@@ -122,10 +140,12 @@ export function AuthForm() {
           />
         </div>
 
-        <Button type="submit" className="w-full rounded-full" disabled={loading}>
-          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {mode === "login" ? "Se connecter" : "Créer un compte"}
-        </Button>
+        <motion.div whileTap={{ scale: 0.98 }} transition={springBouncy}>
+          <Button type="submit" className="w-full rounded-full" disabled={loading}>
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {mode === "login" ? "Se connecter" : "Créer un compte"}
+          </Button>
+        </motion.div>
       </form>
 
       <div className="text-center">
@@ -148,19 +168,21 @@ export function AuthForm() {
             </span>
           </div>
 
-          <Button
-            variant="outline"
-            className="w-full rounded-full"
-            onClick={handleGuest}
-            disabled={guestLoading}
-          >
-            {guestLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <UserRound className="mr-2 h-4 w-4" />
-            )}
-            Continuer en tant qu&apos;invité
-          </Button>
+          <motion.div whileTap={{ scale: 0.98 }} transition={springBouncy}>
+            <Button
+              variant="outline"
+              className="w-full rounded-full"
+              onClick={handleGuest}
+              disabled={guestLoading}
+            >
+              {guestLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <UserRound className="mr-2 h-4 w-4" />
+              )}
+              Continuer en tant qu&apos;invité
+            </Button>
+          </motion.div>
         </>
       )}
     </div>

@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { motion } from "framer-motion"
 
 interface CategoryTabsProps {
   categories: string[]
@@ -15,33 +16,38 @@ export function CategoryTabs({ categories, selected, onSelect }: CategoryTabsPro
   return (
     <ScrollArea className="w-full whitespace-nowrap">
       <div className="flex gap-2 pb-2">
-        <button
+        <TabButton
+          active={selected === null}
           onClick={() => onSelect(null)}
-          className={cn(
-            "inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200",
-            selected === null
-              ? "border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-              : "border-border/60 bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground"
-          )}
-        >
-          Tout
-        </button>
+          label="Tout"
+        />
         {categories.map((category) => (
-          <button
+          <TabButton
             key={category}
+            active={selected === category}
             onClick={() => onSelect(category)}
-            className={cn(
-              "inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200",
-              selected === category
-                ? "border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-                : "border-border/60 bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground"
-            )}
-          >
-            {category}
-          </button>
+            label={category}
+          />
         ))}
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
+  )
+}
+
+function TabButton({ active, onClick, label }: { active: boolean; onClick: () => void; label: string }) {
+  return (
+    <motion.button
+      onClick={onClick}
+      whileTap={{ scale: 0.95 }}
+      className={cn(
+        "inline-flex items-center rounded-full px-5 py-2.5 text-[15px] font-medium transition-all duration-200",
+        active
+          ? "bg-primary text-primary-foreground shadow-md shadow-primary/25 scale-[1.02]"
+          : "bg-card/80 backdrop-blur-sm border border-border/40 text-muted-foreground hover:text-foreground hover:border-primary/30"
+      )}
+    >
+      {label}
+    </motion.button>
   )
 }

@@ -19,6 +19,9 @@ import { isValidMoroccanPhone } from "@/utils/phone"
 import type { UserAddress } from "@/types"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import { motion } from "framer-motion"
+import { fadeInUp, staggerContainer, easeOutExpo, springBouncy } from "@/lib/animations"
+import { PageTransition } from "@/components/layout/page-transition"
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -110,62 +113,109 @@ export default function CheckoutPage() {
     <div className="min-h-screen pb-20 md:pb-0">
       <Header />
 
-      <main className="mx-auto max-w-2xl px-4 py-6">
-        <h1 className="mb-6 text-2xl font-bold">Finaliser la commande</h1>
-
-        <div className="space-y-6">
-          {/* Zone selector */}
-          {isLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="h-16 rounded-xl" />
-              <Skeleton className="h-16 rounded-xl" />
-            </div>
-          ) : (
-            <ZoneSelector
-              zones={zones ?? []}
-              selected={address.zoneId}
-              onSelect={(zoneId) => setAddress((prev) => ({ ...prev, zoneId }))}
-            />
-          )}
-
-          {/* Address form */}
-          {isLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-5 w-40" />
-              <Skeleton className="h-10 rounded-lg" />
-              <Skeleton className="h-10 rounded-lg" />
-              <Skeleton className="h-10 rounded-lg" />
-            </div>
-          ) : (
-            <AddressForm
-              address={address}
-              onChange={setAddress}
-              errors={errors}
-            />
-          )}
-
-          {/* Payment */}
-          <PaymentMethodSelector
-            selected={paymentMethod}
-            onSelect={setPaymentMethod}
-          />
-
-          {/* Order summary */}
-          <OrderSummaryCard items={cart} total={getTotal()} />
-
-          {/* Submit */}
-          <Button
-            className="w-full rounded-full"
-            size="lg"
-            onClick={handleSubmit}
-            disabled={submitting}
+      <PageTransition>
+        <main className="mx-auto max-w-2xl px-4 py-6">
+          <motion.h1
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            transition={easeOutExpo}
+            className="mb-6 text-3xl font-bold font-display"
           >
-            {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Confirmer la commande
-          </Button>
-        </div>
-      </main>
+            Finaliser la commande
+          </motion.h1>
+
+          {/* Progress indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={easeOutExpo}
+            className="mb-8 flex items-center justify-center gap-2"
+          >
+            {["Zone", "Adresse", "Paiement"].map((label, i) => (
+              <div key={label} className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
+                    {i + 1}
+                  </div>
+                  <span className="text-xs font-medium text-muted-foreground">{label}</span>
+                </div>
+                {i < 2 && <div className="h-px w-8 bg-border" />}
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+          >
+            {/* Zone selector */}
+            <motion.div variants={fadeInUp} transition={easeOutExpo}>
+              {isLoading ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-5 w-40" />
+                  <Skeleton className="h-16 rounded-xl" />
+                  <Skeleton className="h-16 rounded-xl" />
+                </div>
+              ) : (
+                <ZoneSelector
+                  zones={zones ?? []}
+                  selected={address.zoneId}
+                  onSelect={(zoneId) => setAddress((prev) => ({ ...prev, zoneId }))}
+                />
+              )}
+            </motion.div>
+
+            {/* Address form */}
+            <motion.div variants={fadeInUp} transition={easeOutExpo}>
+              {isLoading ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-5 w-40" />
+                  <Skeleton className="h-10 rounded-lg" />
+                  <Skeleton className="h-10 rounded-lg" />
+                  <Skeleton className="h-10 rounded-lg" />
+                </div>
+              ) : (
+                <AddressForm
+                  address={address}
+                  onChange={setAddress}
+                  errors={errors}
+                />
+              )}
+            </motion.div>
+
+            {/* Payment */}
+            <motion.div variants={fadeInUp} transition={easeOutExpo}>
+              <PaymentMethodSelector
+                selected={paymentMethod}
+                onSelect={setPaymentMethod}
+              />
+            </motion.div>
+
+            {/* Order summary */}
+            <motion.div variants={fadeInUp} transition={easeOutExpo}>
+              <OrderSummaryCard items={cart} total={getTotal()} />
+            </motion.div>
+
+            {/* Submit */}
+            <motion.div variants={fadeInUp} transition={easeOutExpo}>
+              <motion.div whileTap={{ scale: 0.98 }} transition={springBouncy}>
+                <Button
+                  className="w-full rounded-full h-14"
+                  size="lg"
+                  onClick={handleSubmit}
+                  disabled={submitting}
+                >
+                  {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Confirmer la commande
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </main>
+      </PageTransition>
 
       <MobileNav />
     </div>

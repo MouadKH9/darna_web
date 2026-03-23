@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button"
 import { useCart } from "@/providers/cart-provider"
 import { useAuth } from "@/providers/auth-provider"
 import { ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { fadeInUp, staggerContainer, easeOutExpo, springBouncy } from "@/lib/animations"
+import { PageTransition } from "@/components/layout/page-transition"
 
 export default function CartPage() {
   const { cart, getTotal, updateItemQuantity, removeItem } = useCart()
@@ -31,32 +34,58 @@ export default function CartPage() {
     <div className="min-h-screen pb-20 md:pb-0">
       <Header />
 
-      <main className="mx-auto max-w-2xl px-4 py-6">
-        <h1 className="mb-6 text-2xl font-bold">Votre panier</h1>
+      <PageTransition>
+        <main className="mx-auto max-w-2xl px-4 py-6">
+          <motion.h1
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            transition={easeOutExpo}
+            className="mb-6 text-3xl font-bold font-display"
+          >
+            Votre panier
+          </motion.h1>
 
-        <div className="space-y-3">
-          {cart.map((item, index) => (
-            <CartItemCard
-              key={`${item.dish.id}-${index}`}
-              item={item}
-              index={index}
-              onQuantityChange={updateItemQuantity}
-              onRemove={removeItem}
-            />
-          ))}
-        </div>
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="space-y-3"
+          >
+            <AnimatePresence>
+              {cart.map((item, index) => (
+                <motion.div
+                  key={`${item.dish.id}-${index}`}
+                  variants={fadeInUp}
+                  exit={{ opacity: 0, x: -200, height: 0, marginBottom: 0 }}
+                  transition={easeOutExpo}
+                  layout
+                >
+                  <CartItemCard
+                    item={item}
+                    index={index}
+                    onQuantityChange={updateItemQuantity}
+                    onRemove={removeItem}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-        <div className="mt-6">
-          <CartSummary subtotal={getTotal()} />
-        </div>
+          <div className="mt-6">
+            <CartSummary subtotal={getTotal()} />
+          </div>
 
-        <div className="mt-6">
-          <Button render={<Link href={checkoutHref} />} className="w-full rounded-full gap-2" size="lg">
-            Passer la commande
-            <ArrowRight className="h-5 w-5" />
-          </Button>
-        </div>
-      </main>
+          <div className="mt-6">
+            <motion.div whileTap={{ scale: 0.98 }} transition={springBouncy}>
+              <Button render={<Link href={checkoutHref} />} className="w-full rounded-full gap-2 h-14" size="lg">
+                Passer la commande
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </motion.div>
+          </div>
+        </main>
+      </PageTransition>
 
       <MobileNav />
     </div>

@@ -12,7 +12,7 @@ export function CartSummary({ subtotal, deliveryFee = 0 }: CartSummaryProps) {
   const total = subtotal + deliveryFee
 
   return (
-    <div className="space-y-3 rounded-xl bg-card p-4 shadow-sm">
+    <div className="space-y-3 rounded-2xl bg-card p-4 card-warm-glow border-t moroccan-border">
       <div className="flex items-center justify-between text-sm">
         <span className="text-muted-foreground">Sous-total</span>
         <span className="font-medium">{formatPrice(subtotal)}</span>
@@ -25,8 +25,8 @@ export function CartSummary({ subtotal, deliveryFee = 0 }: CartSummaryProps) {
       )}
       <Separator />
       <div className="flex items-center justify-between">
-        <span className="font-semibold">Total</span>
-        <span className="text-lg font-bold text-primary">{formatPrice(total)}</span>
+        <span className="font-display font-semibold">Total</span>
+        <span className="text-xl font-display font-bold text-gradient-warm">{formatPrice(total)}</span>
       </div>
     </div>
   )

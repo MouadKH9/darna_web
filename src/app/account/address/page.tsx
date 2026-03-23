@@ -15,6 +15,9 @@ import { isValidMoroccanPhone } from "@/utils/phone"
 import type { UserAddress } from "@/types"
 import { toast } from "sonner"
 import { ArrowLeft, Loader2 } from "lucide-react"
+import { motion } from "framer-motion"
+import { fadeInUp, staggerContainer, easeOutExpo } from "@/lib/animations"
+import { PageTransition } from "@/components/layout/page-transition"
 
 export default function AddressPage() {
   const router = useRouter()
@@ -81,45 +84,66 @@ export default function AddressPage() {
     <div className="min-h-screen pb-20 md:pb-0">
       <Header />
 
-      <main className="mx-auto max-w-2xl px-4 py-6">
-        <Button variant="ghost" size="sm" onClick={() => router.back()} className="mb-4 gap-1">
-          <ArrowLeft className="h-4 w-4" />
-          Retour
-        </Button>
+      <PageTransition>
+        <main className="mx-auto max-w-2xl px-4 py-6">
+          <Button variant="ghost" size="sm" onClick={() => router.back()} className="mb-4 gap-1">
+            <ArrowLeft className="h-4 w-4" />
+            Retour
+          </Button>
 
-        <h1 className="mb-6 text-2xl font-bold">Adresse de livraison</h1>
+          <motion.h1
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            transition={easeOutExpo}
+            className="mb-6 text-3xl font-bold font-display"
+          >
+            Adresse de livraison
+          </motion.h1>
 
-        {isLoading ? (
-          <div className="space-y-4">
-            <Skeleton className="h-40 rounded-xl" />
-            <Skeleton className="h-60 rounded-xl" />
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <ZoneSelector
-              zones={zones ?? []}
-              selected={address.zoneId}
-              onSelect={(zoneId) => setAddress((prev) => ({ ...prev, zoneId }))}
-            />
-
-            <AddressForm
-              address={address}
-              onChange={setAddress}
-              errors={errors}
-            />
-
-            <Button
-              className="w-full rounded-full"
-              size="lg"
-              onClick={handleSave}
-              disabled={upsertAddress.isPending}
+          {isLoading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-40 rounded-xl" />
+              <Skeleton className="h-60 rounded-xl" />
+            </div>
+          ) : (
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="space-y-6"
             >
-              {upsertAddress.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Enregistrer
-            </Button>
-          </div>
-        )}
-      </main>
+              <motion.div variants={fadeInUp} transition={easeOutExpo}>
+                <ZoneSelector
+                  zones={zones ?? []}
+                  selected={address.zoneId}
+                  onSelect={(zoneId) => setAddress((prev) => ({ ...prev, zoneId }))}
+                />
+              </motion.div>
+
+              <motion.div variants={fadeInUp} transition={easeOutExpo}>
+                <AddressForm
+                  address={address}
+                  onChange={setAddress}
+                  errors={errors}
+                />
+              </motion.div>
+
+              <motion.div variants={fadeInUp} transition={easeOutExpo}>
+                <Button
+                  className="w-full rounded-full"
+                  size="lg"
+                  onClick={handleSave}
+                  disabled={upsertAddress.isPending}
+                >
+                  {upsertAddress.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Enregistrer
+                </Button>
+              </motion.div>
+            </motion.div>
+          )}
+        </main>
+      </PageTransition>
 
       <MobileNav />
     </div>

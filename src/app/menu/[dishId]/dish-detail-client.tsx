@@ -16,6 +16,7 @@ import type { Dish, Extra } from "@/types"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
 import { Skeleton } from "@/components/ui/skeleton"
+import { easeOutExpo, springBouncy } from "@/lib/animations"
 
 interface DishDetailClientProps {
   dish: Dish
@@ -46,20 +47,12 @@ export function DishDetailClient({ dish }: DishDetailClientProps) {
   }
 
   return (
-    <div className="min-h-screen pb-24 md:pb-0">
+    <div className="min-h-screen pb-44 md:pb-28">
       <Header />
 
       <main className="mx-auto max-w-3xl">
-        {/* Back button */}
-        <div className="px-4 pt-4">
-          <Button variant="ghost" size="sm" onClick={() => router.back()} className="gap-1">
-            <ArrowLeft className="h-4 w-4" />
-            Retour
-          </Button>
-        </div>
-
-        {/* Hero image */}
-        <div className="relative mx-4 mt-2 aspect-[16/10] overflow-hidden rounded-2xl">
+        {/* Hero image — full-bleed on mobile */}
+        <div className="relative aspect-[3/4] md:aspect-[16/9] overflow-hidden">
           {dish.image ? (
             <Image
               src={dish.image}
@@ -74,12 +67,25 @@ export function DishDetailClient({ dish }: DishDetailClientProps) {
               <span className="text-6xl">🍽️</span>
             </div>
           )}
+
+          {/* Gradient overlay at bottom */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/50 to-transparent" />
+
+          {/* Back button — glassmorphism circle */}
+          <button
+            onClick={() => router.back()}
+            className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/70 backdrop-blur-md transition-colors hover:bg-background/90"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
         </div>
 
+        {/* Content sheet overlapping image */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-6 px-4 py-6"
+          transition={easeOutExpo}
+          className="-mt-8 relative z-10 rounded-t-3xl bg-card shadow-[0_-8px_32px_-8px_rgba(0,0,0,0.1)] space-y-6 px-4 py-6"
         >
           {/* Title & price */}
           <div>
@@ -91,7 +97,7 @@ export function DishDetailClient({ dish }: DishDetailClientProps) {
             {dish.description && (
               <p className="mt-2 text-muted-foreground">{dish.description}</p>
             )}
-            <p className="mt-3 text-2xl font-bold text-primary">
+            <p className="mt-3 text-3xl font-display font-bold text-gradient-warm">
               {formatPrice(dish.price)}
             </p>
           </div>
@@ -106,31 +112,45 @@ export function DishDetailClient({ dish }: DishDetailClientProps) {
               </div>
             </div>
           ) : extras && extras.length > 0 ? (
-            <ExtrasSelector
-              extras={extras}
-              selected={selectedExtras}
-              onToggle={toggleExtra}
-            />
+            <div>
+              <div className="mb-3 flex items-center gap-2">
+                <div className="h-5 w-1 rounded-full bg-primary" />
+                <h3 className="font-semibold">Suppléments</h3>
+              </div>
+              <ExtrasSelector
+                extras={extras}
+                selected={selectedExtras}
+                onToggle={toggleExtra}
+              />
+            </div>
           ) : null}
 
           {/* Quantity */}
           <div className="space-y-3">
-            <h3 className="font-semibold">Quantité</h3>
+            <div className="flex items-center gap-2">
+              <div className="h-5 w-1 rounded-full bg-primary" />
+              <h3 className="font-semibold">Quantité</h3>
+            </div>
             <QuantityControl value={quantity} onChange={setQuantity} />
           </div>
         </motion.div>
 
         {/* Sticky add-to-cart bar */}
-        <div className="fixed bottom-16 left-0 right-0 z-40 border-t border-border/50 bg-background/90 p-4 backdrop-blur-lg md:bottom-0">
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          transition={springBouncy}
+          className="fixed bottom-16 left-0 right-0 z-40 rounded-t-2xl bg-background/90 p-4 backdrop-blur-lg shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.1)] md:bottom-0"
+        >
           <div className="mx-auto flex max-w-3xl items-center gap-4">
             <div className="flex-1">
               <p className="text-sm text-muted-foreground">Total</p>
-              <p className="text-xl font-bold text-primary">{formatPrice(total)}</p>
+              <p className="text-xl font-bold text-gradient-warm">{formatPrice(total)}</p>
             </div>
-            <motion.div whileTap={{ scale: 0.95 }}>
+            <motion.div whileTap={{ scale: 0.95 }} transition={springBouncy}>
               <Button
                 size="lg"
-                className="rounded-full px-8 gap-2"
+                className="h-14 rounded-full px-8 gap-2"
                 onClick={handleAddToCart}
               >
                 <ShoppingBag className="h-5 w-5" />
@@ -138,7 +158,7 @@ export function DishDetailClient({ dish }: DishDetailClientProps) {
               </Button>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </main>
 
       <MobileNav />

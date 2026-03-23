@@ -43,6 +43,7 @@
   --color-warning: var(--warning);
   --color-warm: var(--warm);
   --color-warm-dark: var(--warm-dark);
+  --color-gold: var(--gold);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -58,6 +59,9 @@
   /* Darna Brand Colors */
   --brand-primary: #ec3713;
   --brand-secondary: #697F00;
+
+  /* Gold accent */
+  --gold: #C8943E;
 
   /* Warm accent tones (Moroccan terracotta palette) */
   --warm: #F5E6DC;
@@ -125,6 +129,9 @@
 }
 
 .dark {
+  /* Gold accent */
+  --gold: #D4A44C;
+
   /* Warm accent tones */
   --warm: #2A1F1A;
   --warm-dark: #3A2E26;
@@ -197,11 +204,15 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+  body ::selection {
+    background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+  }
   html {
     @apply font-sans scroll-smooth;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-playfair), Georgia, serif;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -223,17 +234,69 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.06' stroke-width='0.5'/%3E%3Cpath d='M30 10L50 30L30 50L10 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.04' stroke-width='0.5'/%3E%3C/svg%3E");
 }
 
-/* Scalloped section divider — Moroccan arch inspired */
+/* Bolder zellige pattern — denser with triple-nested diamonds */
+.bg-zellige-bold {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4310E' stroke-opacity='0.12' stroke-width='0.5'/%3E%3Cpath d='M30 8L52 30L30 52L8 30Z' fill='none' stroke='%23D4310E' stroke-opacity='0.08' stroke-width='0.5'/%3E%3Cpath d='M30 16L44 30L30 44L16 30Z' fill='none' stroke='%23D4310E' stroke-opacity='0.05' stroke-width='0.5'/%3E%3C/svg%3E");
+}
+
+.dark .bg-zellige-bold {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.12' stroke-width='0.5'/%3E%3Cpath d='M30 8L52 30L30 52L8 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.08' stroke-width='0.5'/%3E%3Cpath d='M30 16L44 30L30 44L16 30Z' fill='none' stroke='%23E84420' stroke-opacity='0.05' stroke-width='0.5'/%3E%3C/svg%3E");
+}
+
+/* Arch gradient — radial warm gradient simulating light through a Moroccan arch */
+.bg-arch-gradient {
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, color-mix(in srgb, var(--warm) 60%, transparent), transparent);
+}
+
+/* Moroccan decorative border — repeating 8-pointed star SVG border-image */
+.moroccan-border {
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M20 0l3 6-3 6-3-6z M10 0l3 6-3 6-3-6z M30 0l3 6-3 6-3-6z M0 0l3 6-3 6-3-6z M40 0l3 6-3 6-3-6z' fill='%23D4310E' fill-opacity='0.15'/%3E%3C/svg%3E") 12 round;
+  border-image-width: 12px 0 0 0;
+}
+
+.dark .moroccan-border {
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M20 0l3 6-3 6-3-6z M10 0l3 6-3 6-3-6z M30 0l3 6-3 6-3-6z M0 0l3 6-3 6-3-6z M40 0l3 6-3 6-3-6z' fill='%23E84420' fill-opacity='0.15'/%3E%3C/svg%3E") 12 round;
+  border-image-width: 12px 0 0 0;
+}
+
+/* Warm card glow — terracotta-tinted box-shadow for hover states */
+.card-warm-glow {
+  box-shadow: 0 4px 24px -4px color-mix(in srgb, var(--primary) 8%, transparent),
+              0 1px 4px -1px color-mix(in srgb, var(--primary) 5%, transparent);
+}
+
+.card-warm-glow:hover {
+  box-shadow: 0 8px 32px -4px color-mix(in srgb, var(--primary) 15%, transparent),
+              0 2px 8px -2px color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+/* Scalloped section divider — Moroccan arch inspired (taller) */
 .divider-scallop {
   background-image: radial-gradient(circle at 50% 0%, var(--background) 25%, transparent 26%);
-  background-size: 20px 10px;
+  background-size: 24px 12px;
   background-position: center top;
-  height: 10px;
+  height: 24px;
 }
 
 /* Decorative arch shape for hero */
 .arch-clip {
   clip-path: ellipse(55% 100% at 50% 0%);
+}
+
+/* Keyframes */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes pulse-warm {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 30%, transparent); }
+  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary) 0%, transparent); }
 }
 
 /* Custom scrollbar */
@@ -263,5 +326,29 @@
 
   .font-display {
     font-family: var(--font-playfair), Georgia, serif;
+  }
+
+  /* Display headline */
+  .text-display-xl {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-family: var(--font-playfair), Georgia, serif;
+  }
+
+  /* Gold text gradient */
+  .text-gradient-warm {
+    background: linear-gradient(135deg, var(--primary), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card-warm-glow,
+  .card-warm-glow:hover {
+    transition: none;
   }
 }

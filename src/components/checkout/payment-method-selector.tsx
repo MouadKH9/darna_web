@@ -3,6 +3,7 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Banknote, CreditCard } from "lucide-react"
+import { motion } from "framer-motion"
 
 interface PaymentMethodSelectorProps {
   selected: "cash" | "card"
@@ -21,18 +22,19 @@ export function PaymentMethodSelector({ selected, onSelect }: PaymentMethodSelec
       <RadioGroup value={selected} onValueChange={(v) => onSelect(v as "cash" | "card")}>
         <div className="grid gap-2">
           {methods.map((method) => (
-            <Label
-              key={method.value}
-              htmlFor={`pay-${method.value}`}
-              className="flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4 transition-colors hover:border-primary/30 has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5"
-            >
-              <RadioGroupItem value={method.value} id={`pay-${method.value}`} />
-              <method.icon className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <span className="font-medium">{method.label}</span>
-                <p className="text-xs text-muted-foreground">{method.description}</p>
-              </div>
-            </Label>
+            <motion.div key={method.value} whileTap={{ scale: 0.98 }}>
+              <Label
+                htmlFor={`pay-${method.value}`}
+                className="flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4 transition-all hover:border-primary/30 has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/50 has-[[data-state=checked]]:bg-primary/5"
+              >
+                <RadioGroupItem value={method.value} id={`pay-${method.value}`} />
+                <method.icon className="h-5 w-5 text-muted-foreground" />
+                <div>
+                  <span className="font-medium">{method.label}</span>
+                  <p className="text-xs text-muted-foreground">{method.description}</p>
+                </div>
+              </Label>
+            </motion.div>
           ))}
         </div>
       </RadioGroup>

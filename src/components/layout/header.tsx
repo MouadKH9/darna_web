@@ -7,6 +7,7 @@ import { useCart } from "@/providers/cart-provider"
 import { useAuth } from "@/providers/auth-provider"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
+import { springBouncy, fadeInScale } from "@/lib/animations"
 
 export function Header() {
   const { cart } = useCart()
@@ -17,16 +18,26 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+      <div className="mx-auto flex h-[72px] max-w-5xl items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-baseline gap-2.5">
-          <span className="font-display text-2xl font-bold italic tracking-tight text-primary">
-            Darna
-          </span>
-          <span className="hidden text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:inline">
-            دارنا
-          </span>
-        </Link>
+        <motion.div
+          variants={fadeInScale}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Link href="/" className="flex items-baseline gap-2.5">
+            <span className="font-display text-3xl font-bold italic tracking-tight text-gradient-warm">
+              Darna
+            </span>
+            <span className="hidden items-baseline gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:inline-flex">
+              <svg width="6" height="6" viewBox="0 0 12 12" className="text-gold" aria-hidden>
+                <path d="M6 0l1.5 4.5L12 6l-4.5 1.5L6 12 4.5 7.5 0 6l4.5-1.5Z" fill="currentColor"/>
+              </svg>
+              دارنا
+            </span>
+          </Link>
+        </motion.div>
 
         {/* Actions */}
         <div className="flex items-center gap-1">
@@ -58,7 +69,8 @@ export function Header() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground"
+                  transition={springBouncy}
+                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground ring-2 ring-background"
                 >
                   {itemCount}
                 </motion.span>

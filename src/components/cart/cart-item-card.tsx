@@ -19,16 +19,16 @@ export function CartItemCard({ item, index, onQuantityChange, onRemove }: CartIt
   const lineTotal = (item.dish.price + extrasTotal) * item.quantity
 
   return (
-    <div className="flex gap-4 rounded-xl bg-card p-4 shadow-sm">
+    <div className="flex gap-4 rounded-2xl bg-card p-4 card-warm-glow">
       {/* Image */}
-      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg">
+      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
         {item.dish.image ? (
           <Image
             src={item.dish.image}
             alt={item.dish.name}
             fill
             className="object-cover"
-            sizes="80px"
+            sizes="96px"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-muted">
@@ -40,7 +40,7 @@ export function CartItemCard({ item, index, onQuantityChange, onRemove }: CartIt
       {/* Details */}
       <div className="flex flex-1 flex-col justify-between min-w-0">
         <div>
-          <h3 className="font-semibold line-clamp-1">{item.dish.name}</h3>
+          <h3 className="font-display font-semibold line-clamp-1">{item.dish.name}</h3>
           {item.extras.length > 0 && (
             <p className="text-xs text-muted-foreground line-clamp-1">
               + {item.extras.map((e) => e.name).join(", ")}
