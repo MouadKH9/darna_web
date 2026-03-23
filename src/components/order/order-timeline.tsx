@@ -73,7 +73,7 @@ export function OrderTimeline({ currentStatus }: OrderTimelineProps) {
             </div>
             <span
               className={cn(
-                "text-sm",
+                "text-sm self-baseline pt-2",
                 isCurrent
                   ? "font-semibold text-primary"
                   : isCompleted
