@@ -48,8 +48,9 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Redirect authenticated users away from auth pages
-  if (user && isAuthPage) {
+  // Redirect authenticated (non-guest) users away from auth pages
+  const isAnonymous = user?.is_anonymous === true
+  if (user && !isAnonymous && isAuthPage) {
     const url = request.nextUrl.clone()
     url.pathname = "/"
     return NextResponse.redirect(url)
