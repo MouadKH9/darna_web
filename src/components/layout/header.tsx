@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ShoppingBag, User, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useCart } from "@/providers/cart-provider"
@@ -26,15 +27,10 @@ export function Header() {
           animate="visible"
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Link href="/" className="flex items-baseline gap-2.5">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Darna" width={40} height={40} className="h-10 w-10 object-contain" />
             <span className="font-display text-3xl font-bold italic tracking-tight text-gradient-warm">
               Darna
-            </span>
-            <span className="hidden items-baseline gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:inline-flex">
-              <svg width="6" height="6" viewBox="0 0 12 12" className="text-gold" aria-hidden>
-                <path d="M6 0l1.5 4.5L12 6l-4.5 1.5L6 12 4.5 7.5 0 6l4.5-1.5Z" fill="currentColor"/>
-              </svg>
-              دارنا
             </span>
           </Link>
         </motion.div>

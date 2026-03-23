@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/providers/auth-provider"
 import { toast } from "sonner"
 import { Loader2, UserRound } from "lucide-react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { springBouncy, easeOutExpo } from "@/lib/animations"
 
@@ -87,7 +88,8 @@ export function AuthForm() {
       </div>
 
       <div className="text-center pt-8">
-        <h1 className="text-4xl font-display font-bold text-gradient-warm">Darna</h1>
+        <Image src="/logo.png" alt="Darna" width={72} height={72} className="mx-auto h-18 w-18 object-contain" />
+        <h1 className="mt-2 text-4xl font-display font-bold text-gradient-warm">Darna</h1>
         <p className="mt-2 text-muted-foreground">
           {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte"}
         </p>
