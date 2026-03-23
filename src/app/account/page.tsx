@@ -112,7 +112,7 @@ export default function AccountPage() {
                     <Skeleton className="mt-1 h-4 w-48" />
                   ) : address ? (
                     <p className="text-sm text-muted-foreground line-clamp-1">
-                      {address.addressLine}, {address.city}
+                      {address.city} &middot; {address.phone}
                     </p>
                   ) : (
                     <p className="text-sm text-muted-foreground">

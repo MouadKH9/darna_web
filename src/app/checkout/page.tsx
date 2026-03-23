@@ -68,10 +68,6 @@ export default function CheckoutPage() {
       newErrors.phone = "Numéro marocain invalide"
     }
 
-    if (!address.addressLine.trim()) {
-      newErrors.addressLine = "L'adresse est obligatoire"
-    }
-
     if (!address.city.trim()) {
       newErrors.city = "La ville est obligatoire"
     }
